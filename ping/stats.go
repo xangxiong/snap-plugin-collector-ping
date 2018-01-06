@@ -14,7 +14,7 @@ import (
 var GlobalPinger *pinger.Pinger
 
 func init() {
-	GlobalPinger = pinger.NewPinger("all", 1024)
+	GlobalPinger, err := pinger.NewPinger("all", 1024)
 }
 
 // results. we use pointers so that missing data will be
