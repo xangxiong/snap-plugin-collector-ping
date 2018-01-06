@@ -60,7 +60,7 @@ func (p *RaintankProbePing) Run() (*PingResult, error) {
 	deadline := time.Now().Add(p.Timeout)
 	result := &PingResult{}
 
-	var ipAddr string
+	var ipAddr []byte{}
 
 	// get IP from hostname.
 	addrs, err := net.LookupHost(p.Hostname)
@@ -75,7 +75,7 @@ func (p *RaintankProbePing) Run() (*PingResult, error) {
 		result.Loss = &loss
 		return result, nil
 	}
-	ipAddr = addrs[0]
+	ipAddr = []byte(addrs[0])
 
 	resultsChan, err := GlobalPinger.Ping(ipAddr, p.Count, deadline)
 	if err != nil {
