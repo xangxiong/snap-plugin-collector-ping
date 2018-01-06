@@ -15,6 +15,8 @@ var GlobalPinger *pinger.Pinger
 
 func init() {
 	GlobalPinger, err := pinger.NewPinger("all", 1024)
+	_ = err
+	_ = GlobalPinger
 }
 
 // results. we use pointers so that missing data will be
@@ -57,6 +59,7 @@ func NewRaintankPingProbe(hostname string, count int, timeout float64) (*Raintan
 }
 
 func (p *RaintankProbePing) Run() (*PingResult, error) {
+	deadline := time.Now().Add(p.Timeout)
 	result := &PingResult{}
 
 	ipAddr := []byte{}
@@ -81,7 +84,7 @@ func (p *RaintankProbePing) Run() (*PingResult, error) {
 		return nil, err
 	}
 
-	results := <-resultsChan
+	results := resultsChan
 
 	// derive stats from results.
 	successCount := results.Received
