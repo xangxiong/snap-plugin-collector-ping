@@ -57,7 +57,6 @@ func NewRaintankPingProbe(hostname string, count int, timeout float64) (*Raintan
 }
 
 func (p *RaintankProbePing) Run() (*PingResult, error) {
-	deadline := time.Now().Add(p.Timeout)
 	result := &PingResult{}
 
 	ipAddr := []byte{}
@@ -77,7 +76,7 @@ func (p *RaintankProbePing) Run() (*PingResult, error) {
 	}
 	ipAddr = []byte(addrs[0])
 
-	resultsChan, err := GlobalPinger.Ping(ipAddr, p.Count, deadline)
+	resultsChan, err := GlobalPinger.Ping(ipAddr, p.Count, p.Timeout)
 	if err != nil {
 		return nil, err
 	}
